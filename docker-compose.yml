@@ -1,0 +1,137 @@
+# Help: rename the adject docker-compose.override.example.yml file to docker-compose.override.yml
+#       then in the override file uncomment the environment tag for the collectors you want to
+#       run. Then add the environment vars you want to use.
+version: '3.6'
+services:
+  mongodb:
+    image: mongo
+    restart: always
+    container_name: "mongo"
+    volumes:
+      - ./data/db:/data/db
+    ports:
+      - 27017:27017
+  
+  api:
+    image: bonganim911/bongz-hygieia-api:0.1
+    depends_on:
+      - mongodb
+    links:
+      - mongodb
+    ports:
+      - "8080:8080"
+
+  ui:
+    build: UI
+    image: hygieia-ui
+    depends_on:
+      - api
+    ports:
+      - "3000:80"
+
+  # jenkins-build-collector:
+  #   image: bongz-build-jenkins
+  #   depends_on:
+  #     - mongodb
+  #   links:
+  #     - mongodb
+
+  # sonar-collector:
+  #   image: hygieia-sonar
+  #   depends_on:
+  #     - mongodb
+  #   links:
+  #     - mongodb
+    # ports:
+    #   - "8080:8080"
+
+  # appdynamics-collector:
+  #   image: hygieia-appdynamics-collector
+  #   depends_on:
+  #     - mongodb
+  #   links:
+  #     - mongodb
+
+  # artifactory-artifact-collector:
+  #   image: hygieia-artifactory-artifact-collector
+  #   depends_on:
+  #     - mongodb
+  #   links:
+  #     - mongodb
+
+  # bitbucket-collector:
+  #   image: hygieia-bitbucket-scm-collector
+  #   depends_on:
+  #     - mongodb
+  #   links:
+  #     - mongodb
+
+  # chat-ops-collector:
+  #   image: hygieia-chat-ops-collector
+  #   depends_on:
+  #     - mongodb
+  #   links:
+  #     - mongodb
+
+  # github-collector:
+  #   image: hygieia-github-scm-collector
+  #   depends_on:
+  #     - mongodb
+  #   links:
+  #     - mongodb
+
+  # jenkins-build-collector:
+  #   image: hygieia-jenkins-build-collector
+  #   depends_on:
+  #     - mongodb
+  #   links:
+  #     - mongodb
+
+  # jenkins-cucumber-test-collector:
+  #   image: hygieia-jenkins-cucumber-test-collector
+  #   depends_on:
+  #     - mongodb
+  #   links:
+  #     - mongodb
+
+  # jira-collector:
+  #   image: hygieia-jira-feature-collector
+  #   depends_on:
+  #     - mongodb
+  #   links:
+  #     - mongodb
+
+  # sonar-codequality-collector:
+  #   image: hygieia-sonar-codequality-collector
+  #   depends_on:
+  #     - mongodb
+  #   links:
+  #     - mongodb
+
+  # subversion-collector:
+  #   image: hygieia-subversion-scm-collector
+  #   depends_on:
+  #     - mongodb
+  #   links:
+  #     - mongodb
+
+  # udeploy-collector:
+  #   image: hygieia-udeploy-collector
+  #   depends_on:
+  #     - mongodb
+  #   links:
+  #     - mongodb
+
+  # versionone-collector:
+  #   image: hygieia-versionone-collector
+  #   depends_on:
+  #     - mongodb
+  #   links:
+  #     - mongodb
+
+  # xldeploy-collector:
+  #   image: hygieia-xldeploy-collector
+  #   depends_on:
+  #     - mongodb
+  #   links:
+  #     - mongodb
