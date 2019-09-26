@@ -22,19 +22,20 @@ services:
       - "8080:8080"
 
   ui:
-    build: UI
-    image: hygieia-ui
+    image: bonganim911/hygieia-ui:0.1
     depends_on:
       - api
     ports:
       - "3000:80"
 
-  # jenkins-build-collector:
-  #   image: bongz-build-jenkins
-  #   depends_on:
-  #     - mongodb
-  #   links:
-  #     - mongodb
+  jenkins-build-collector:
+    image: bonganim911/hygieai-jenkins:0.1
+    env_file:
+      - jenkins.env
+    depends_on:
+      - mongodb
+    links:
+      - mongodb
 
   # sonar-collector:
   #   image: hygieia-sonar
