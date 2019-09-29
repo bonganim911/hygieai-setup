@@ -32,107 +32,73 @@ services:
     image: bonganim911/hygieai-jenkins:0.1
     env_file:
       - jenkins.env
+     # environment:
+     # - JENKINS_HOST=http://192.168.1.148:9000
+     # - JENKINS_USERNAME=bonganim911
+     # - JENKINS_API_KEY=1756366e53c6d671795d3dcde484a3ad2
+     # - JENKINS_CRON=0 0/5 * * * *
     depends_on:
       - mongodb
+      - api
     links:
       - mongodb
+      - api
 
-  # sonar-collector:
-  #   image: hygieia-sonar
-  #   depends_on:
-  #     - mongodb
-  #   links:
-  #     - mongodb
-    # ports:
-    #   - "8080:8080"
+  bitbucket-collector:
+    image: bonganim911/hygieai-bitbucket:0.1
+    env_file:
+      - bitbucket.env
+    depends_on:
+      - mongodb
+      - api
+    links:
+      - mongodb
+      - api
 
-  # appdynamics-collector:
-  #   image: hygieia-appdynamics-collector
-  #   depends_on:
-  #     - mongodb
-  #   links:
-  #     - mongodb
-
-  # artifactory-artifact-collector:
-  #   image: hygieia-artifactory-artifact-collector
-  #   depends_on:
-  #     - mongodb
-  #   links:
-  #     - mongodb
-
-  # bitbucket-collector:
-  #   image: hygieia-bitbucket-scm-collector
-  #   depends_on:
-  #     - mongodb
-  #   links:
-  #     - mongodb
-
-  # chat-ops-collector:
-  #   image: hygieia-chat-ops-collector
-  #   depends_on:
-  #     - mongodb
-  #   links:
-  #     - mongodb
-
-  # github-collector:
-  #   image: hygieia-github-scm-collector
-  #   depends_on:
-  #     - mongodb
-  #   links:
-  #     - mongodb
-
-  # jenkins-build-collector:
-  #   image: hygieia-jenkins-build-collector
-  #   depends_on:
-  #     - mongodb
-  #   links:
-  #     - mongodb
-
-  # jenkins-cucumber-test-collector:
-  #   image: hygieia-jenkins-cucumber-test-collector
-  #   depends_on:
-  #     - mongodb
-  #   links:
-  #     - mongodb
 
   # jira-collector:
   #   image: hygieia-jira-feature-collector
+  #  environment:
+        # you can override these by creating a docker-compose.overider.yml and put in entries like this:
+        #REQUIRED Entries
+  #    - JIRA_BASE_URL=https://jira.atlassian.com
+        #64-bit encoded credentials with the pattern username:password
+        #on a mac you con create them with : echo "username:password" | base64
+        #reference:  https://www.base64decode.org/
+  #    - JIRA_CREDENTIALS=username:password
   #   depends_on:
   #     - mongodb
+  #      - api
   #   links:
   #     - mongodb
+  #     - api
 
   # sonar-codequality-collector:
   #   image: hygieia-sonar-codequality-collector
+  #  environment:
+  #  - SONAR_CRON=0 0/5 * * * *
+  #  - SONAR_URL=http://localhost:9000
   #   depends_on:
   #     - mongodb
+  #      - api
   #   links:
   #     - mongodb
+  #      - api
 
-  # subversion-collector:
-  #   image: hygieia-subversion-scm-collector
-  #   depends_on:
-  #     - mongodb
-  #   links:
-  #     - mongodb
 
   # udeploy-collector:
-  #   image: hygieia-udeploy-collector
-  #   depends_on:
-  #     - mongodb
+  #   image: hygieia-udeploy-collector:0.1
+  #   volumes:
+  #   - ./logs:/hygieia/logs
   #   links:
-  #     - mongodb
-
-  # versionone-collector:
-  #   image: hygieia-versionone-collector
-  #   depends_on:
-  #     - mongodb
-  #   links:
-  #     - mongodb
-
-  # xldeploy-collector:
-  #   image: hygieia-xldeploy-collector
-  #   depends_on:
-  #     - mongodb
-  #   links:
-  #     - mongodb
+  #   - mongodb
+  #   - api
+  #   environment:
+  #UDeploy server (required) - Can provide multiple
+  #  - UDEPLOY_URL:-http://udeploy.company.com
+  #UDeploy user name (required)
+  #  - UDEPLOY_USERNAME:-bobama
+  #UDeploy password (required)
+  #  - UDEPLOY_PASSWORD:-s3cr3t
+  #Collector schedule (required)
+  #  - UDEPLOY_CRON:-0 0/5 * * * *
