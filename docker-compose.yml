@@ -10,8 +10,7 @@ services:
     volumes:
       - ./data/db:/data/db
     ports:
-      - 27017:27017
-  
+      - 27017:27017  
   api:
     image: bonganim911/bongz-hygieia-api:0.1
     depends_on:
@@ -55,9 +54,8 @@ services:
       - mongodb
       - api
 
-
-  # jira-collector:
-  #   image: hygieia-jira-feature-collector
+   jira-collector:
+     image: bonganim911/hygieai-jira:0.1
   #  environment:
         # you can override these by creating a docker-compose.overider.yml and put in entries like this:
         #REQUIRED Entries
@@ -66,33 +64,33 @@ services:
         #on a mac you con create them with : echo "username:password" | base64
         #reference:  https://www.base64decode.org/
   #    - JIRA_CREDENTIALS=username:password
-  #   depends_on:
-  #     - mongodb
-  #      - api
-  #   links:
-  #     - mongodb
-  #     - api
+     depends_on:
+       - mongodb
+       - api
+     links:
+       - mongodb
+       - api
 
-  # sonar-codequality-collector:
-  #   image: hygieia-sonar-codequality-collector
+   sonar-codequality-collector:
+     image: bonganim911/hygieai-sonar:0.1
   #  environment:
   #  - SONAR_CRON=0 0/5 * * * *
   #  - SONAR_URL=http://localhost:9000
-  #   depends_on:
-  #     - mongodb
-  #      - api
-  #   links:
-  #     - mongodb
-  #      - api
+     depends_on:
+       - mongodb
+       - api
+     links:
+       - mongodb
+       - api
 
 
-  # udeploy-collector:
-  #   image: hygieia-udeploy-collector:0.1
-  #   volumes:
-  #   - ./logs:/hygieia/logs
-  #   links:
-  #   - mongodb
-  #   - api
+   udeploy-collector:
+     image: bonganim911/hygieai-udeploy:0.1:0.1
+     volumes:
+       - ./logs:/hygieia/logs
+     links:
+       - mongodb
+       - api
   #   environment:
   #UDeploy server (required) - Can provide multiple
   #  - UDEPLOY_URL:-http://udeploy.company.com
